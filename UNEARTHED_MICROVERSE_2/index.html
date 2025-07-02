@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
+    <script src="https://unpkg.com/aframe-environment-component@1.2.0/dist/aframe-environment-component.min.js"></script>
+    <script src="https://unpkg.com/aframe-event-set-component@3.0.3/dist/aframe-event-set-component.min.js"></script>
+    <script src="https://unpkg.com/aframe-shaderfrog-component"></script>
+    <script src="https://rawgit.com/msj121/aframeFrogShaders/master/aframe-shader-frog.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/donmccurdy/aframe-extras@v6.1.1/dist/aframe-extras.min.js"></script>
+    <script src="https://rawgit.com/protyze/aframe-curve-component/master/dist/aframe-curve-component.min.js"></script>
+    <script src="https://rawgit.com/protyze/aframe-alongpath-component/master/dist/aframe-alongpath-component.min.js"></script>
+  </head>
+
+  <body>
+    <a-scene id="scene" vr-mode-ui="enabled: false" physics="gravity:-9.6">
+      <!-- ASSTES MANAGEMENT  -->
+
+      <a-assets>
+        <!-- <a-mixin id="mycursor" position="0 0 -0.5" raycaster geometry="primitive: ring; radiusOuter: 0.008; radiusInner: 0.005; segmentsTheta: 32" material="color: white; shader: flat" static-body="shape: sphere; sphereRadius: 0.001" super-hands="colliderEvent: raycaster-intersection;colliderEventProperty: els;colliderEndEvent:raycaster-intersection-cleared; colliderEndEventProperty: clearedEls;colliderState:"></a-mixin> -->
+
+        <a-mixin
+          id="light"
+          geometry="primitive: sphere; radius: 1.5"
+          material="color: #FFFF; shader: flat"
+          light="color: #FFFF; distance: 120; intensity: 3; type: point"
+        ></a-mixin>
+
+        <a-mixin
+          id="2light"
+          light="color: #FFFF; distance: 20; intensity: 20; type: point"
+        ></a-mixin>
+
+        <a-mixin
+          id="SQGL"
+          light="color: #FFFF; distance: 22; intensity: 15; type: point"
+        ></a-mixin>
+
+        <a-mixin
+          id="CON"
+          light="color: #FFFF; distance: 20; intensity: 17; type: point"
+        ></a-mixin>
+
+        <a-mixin
+          id="move"
+          physics-collider
+          phase-shift
+          collision-filter="collisionForces: false"
+          static-body="shape: sphere; sphereRadius: 0.02"
+          super-hands="colliderEvent: collisions; colliderEventProperty: els; colliderEndEvent: collisions; colliderEndEventProperty: clearedEls;colliderState:"
+        >
+        </a-mixin>
+
+        <!-- GLTF MODEL IMPORT  -->
+        <a-asset-item
+          id="CONE"
+          response-type="arraybuffer"
+          src="https://cdn.glitch.global/f32a0f57-4722-4041-95b9-a38cbe2ad4d1/CONE_TEXX_BLU_2.glb?v=1646436645824"
+        ></a-asset-item>
+
+        <a-asset-item
+          id="SQUIG"
+          response-type="arraybuffer"
+          src="https://cdn.glitch.global/f32a0f57-4722-4041-95b9-a38cbe2ad4d1/SQUIG_TEX_2.glb?v=1646435567368"
+        ></a-asset-item>
+
+        <!-- TRIED AN OBJ OF SAME MODEL INSTEAD OF GLTF HAVE REMOVED FOR NOW THIS WAS THE ONE WITH METALLIC LOOK -->
+        <a-asset-item
+          id="CONEOBJ"
+          src="https://cdn.glitch.global/47ec08bb-1677-466c-a678-78b44f33a5fe/4Cone.obj?v=1646304192399"
+        ></a-asset-item>
+
+        <a-asset-item
+          id="CONEMAT"
+          src="https://cdn.glitch.global/47ec08bb-1677-466c-a678-78b44f33a5fe/4Cone.mtl?v=1646304185491"
+        ></a-asset-item>
+
+        <!-- OTHER GLTF MODELS TO TRY-->
+
+        <a-asset-item
+          id="Sparkle"
+          src="https://cdn.glitch.global/f32a0f57-4722-4041-95b9-a38cbe2ad4d1/SPARKLE_BLU.glb.gltf?v=1646432708264"
+        ></a-asset-item>
+      </a-assets>
+
+      <!-- END OF ASSETS MANAGEMENT-->
+
+      <!-- START OF EXPERIENCE SCENE CODE-->
+
+      <!-- CALLINIG THE GLTF MODELS-->
+      <a-entity
+        gltf-model="https://cdn.glitch.global/f32a0f57-4722-4041-95b9-a38cbe2ad4d1/CONE_TEXX_BLU_2.glb?v=1646436645824"
+        scale="0.2 0.2 0.2"
+        position="-57.22398 31.6387 20.62503"
+        animation="property: object3D.rotation.y; to: 720; dir: alternate; dur: 120000; loop: true"
+        rotation="9.613085886704953 -3.4578002936145182 -39.511742510016695"
+      ></a-entity>
+      <a-entity mixin="CON" position="-51.207 38.397 19.63"></a-entity>
+      <a-entity mixin="CON" position="-46.46651 36.50174 34.36945"></a-entity>
+
+      <a-entity
+        gltf-model="#Sparkle"
+        scale=""
+        position="56.53311 35.05501 -41.00479"
+        animation="property: object3D.rotation.y; to: 720; dir: alternate; dur: 24000; loop: true"
+        rotation="-40 334.5308203679958 0"
+      ></a-entity>
+
+      <a-entity
+        mixin="2light"
+        position="56.53311 37.05501 -41.00479"
+      ></a-entity>
+      <a-entity
+        gltf-model="#SQUIG"
+        scale=""
+        position="62.57969 47.54574 27.70364"
+        animation="property: object3D.rotation.y; to: 720; dir: alternate; dur: 36000; loop: true"
+        rotation="-40 334.5308203679958 0"
+        fog="50"
+      ></a-entity>
+
+      <a-entity mixin="SQGL" position="62.57969 47.54574 27.70364"></a-entity>
+      <a-entity mixin="SQGL" position="62.57969 49.54574 27.70364"></a-entity>
+      <a-entity mixin="SQGL" position="62.57969 45.54574 27.70364"></a-entity>
+
+      <!--<a-sphere
+        shader-frog="name: Cosmic_Shader"
+        material="repeat: 4.31 3.78; emissive: #7ae9ff; height: 254.55; metalnessTextureRepeat: 0.1 1; fog: true"
+        opacity="0.2"
+                side="double"
+        radius="18"
+        position="9.2353 35.65816 54.27024"
+        animation="property: rotation; to: 0 -360 0; dur: 210000; easing: linear; loop: NaN"
+        sound="src: https://cdn.glitch.me/16521b45-ae5f-41c7-ad24-b14d29c915b4%2FJade_Bass.mp3?v=1636471425163; loop: true; volume: 20; refDistance: 2; rolloffFactor: 9"
+        geometry=""
+        rotation="0 -25.666285714285713 0"
+        scale="0.45 0.45 0.45"
+      >
+      </a-sphere>-->
+
+      <!-- CENTRAL SPHERE WHOSE SEAM NEEDS TO BE REMOVED -->
+
+      <a-sphere
+        shader-frog="name:Goo_Shader"
+        material="repeat: 4.31 3.78; emissive: #7ae9ff; height: 254.55; metalnessTextureRepeat: 0.1 1"
+        side="front"
+        radius="18"
+        position="0 20 0"
+        animation="property: rotation; to: 0 -900  0; dur: 420000; easing: linear; loop: true"
+        sound="src: https://cdn.glitch.me/16521b45-ae5f-41c7-ad24-b14d29c915b4%2FJade_Bass.mp3?v=1636471425163; 
+                       loop: on;
+                      volume: 20;
+                       refDistance: 2;
+                       rolloffFactor: 9"
+      >
+      </a-sphere>
+
+      <!-- <a-sphere
+        shader-frog="name: Sun_Shader"
+        material="repeat: 4.31 3.78; emissive: #7ae9ff; height: 254.55; metalnessTextureRepeat: 0.1 1"
+        side="front"
+        radius="18"
+        position="0 20 0"
+        animation="property: rotation; to: 0 -960  0; dur: 559680; easing: linear; loop: NaN"
+        sound="src: https://cdn.glitch.me/16521b45-ae5f-41c7-ad24-b14d29c915b4%2FJade_Bass.mp3?v=1636471425163; loop: true; volume: 20; refDistance: 2; rolloffFactor: 9"
+        geometry=""
+        rotation="0 0 0"
+        visible=""
+        scale="0.6 0.6 0.6"
+      >
+      </a-sphere>
+
+      <a-sphere
+        shader-frog="name: Goo_Shader"
+        material="repeat: 4.31 3.78; emissive: #7ae9ff; height: 254.55; metalnessTextureRepeat: 0.1 1"
+        side="front"
+        radius="18"
+        position="0 20 2"
+        animation="property: rotation; to: 0 -960  0; dur: 559680; easing: linear; loop: NaN"
+        sound="src: https://cdn.glitch.me/16521b45-ae5f-41c7-ad24-b14d29c915b4%2FJade_Bass.mp3?v=1636471425163; loop: true; volume: 20; refDistance: 2; rolloffFactor: 9"
+        geometry="phiLength: 180"
+        rotation="0 180 0"
+        visible=""
+        scale="0.99 0.99 0.99"
+      >
+      </a-sphere>
+
+      <a-sphere
+        shader-frog="name: Goo_Shader"
+        material="repeat: 4.31 3.78; emissive: #7ae9ff; height: 254.55; metalnessTextureRepeat: 0.1 1"
+        side="front"
+        radius="18"
+        position="0 20 -2"
+        animation="property: rotation; to: 0 -960  0; dur: 559680; easing: linear; loop: NaN"
+        sound="src: https://cdn.glitch.me/16521b45-ae5f-41c7-ad24-b14d29c915b4%2FJade_Bass.mp3?v=1636471425163; loop: true; volume: 20; refDistance: 2; rolloffFactor: 9"
+        geometry="phiLength: 180"
+        rotation="0 0 0"
+        visible=""
+        scale="0.99 0.99 0.99"
+      >
+      </a-sphere> 
+      <!-- <a-sphere
+        shader-frog="name:Goo_Shader"
+        material="repeat: 4.31 3.78; emissive: #7ae9ff; height: 254.55; metalnessTextureRepeat: 0.1 1"
+        side="double"
+        radius="18"
+        position="0 20 0"
+        sound="src: https://cdn.glitch.me/16521b45-ae5f-41c7-ad24-b14d29c915b4%2FJade_Bass.mp3?v=1636471425163; 
+                       loop: on;
+                      volume: 20;
+                       refDistance: 2;
+                       rolloffFactor: 9"
+      >
+      </a-sphere> -->
+
+      <a-entity
+        environment="preset:  tron;  groundYScale:  43.25;  fog:  0.57;  dressingAmount:  199;  groundColor2:  #a39f9f;  groundColor:  #2d6486;  groundTexture:  walkernoise;  active:  true;  seed:  19;  skyType:  atmosphere;  skyColor:  #87faf4;  horizonColor:  #4e5574;  flatShading:  true;  dressing:  stones;  dressingColor:  #69bdbf;  dressingScale:  0;  dressingOnPlayArea:  0.48;  lightPosition:  [object Object];  gridColor:  #000000;  dressingVariance:  [object Object];  ground:  canyon"
+      ></a-entity>
+
+      <a-sphere
+        shader-frog="name: Ova_Shader"
+        side="double"
+        radius="4"
+        position="-4 38.85854 -64.87484"
+        material=""
+        geometry=""
+        visible=""
+        sound="src: https://cdn.glitch.me/16521b45-ae5f-41c7-ad24-b14d29c915b4%2FJade_S2.mp3?v=1636471426163; 
+                       loop: on;
+                      volume: 13;
+                       refDistance: 1;
+                       rolloffFactor: 2"
+      >
+      </a-sphere>
+
+      <a-sphere
+        shader-frog="name: Ova_Shader"
+        side="double"
+        radius="4"
+        position="3.57826 48.53446 61.55432"
+        material=""
+        geometry=""
+        visible=""
+        scale="2 2 2"
+        sound="src: https://cdn.glitch.me/16521b45-ae5f-41c7-ad24-b14d29c915b4%2FJade_S1.mp3?v=1636471427284; loop: true; volume: 13; rolloffFactor: 2"
+      >
+      </a-sphere>
+
+      <!-- REPLACE WITH OBJECT -->
+
+      <!--<a-sphere
+        shader-frog="name: Jelly_Shader"
+        position="62.57969 47.54574 27.70364"
+        radius="1.5"
+        animation="property: object3D.rotation.y; to: 720; dir: alternate; dur: 12000; loop: NaN"
+        animation__mouseenter=""
+        animation__mouseleave=""
+        material=""
+        geometry=""
+        scale="4 6 4"
+        sound="src: https://cdn.glitch.me/16521b45-ae5f-41c7-ad24-b14d29c915b4%2FJade_S3.mp3?v=1636471425192;  loop: true; volume: 8; refDistance: 2; rolloffFactor: 4"
+      ></a-sphere> -->
+
+      <!--<a-sphere
+        shader-frog="name: Thruster_Shader"
+        position="12.8031 26.19389 55.13424"
+        radius="1.5"
+        animation="property: object3D.rotation.y; to: 720; dir: alternate; dur: 12000; loop: NaN"
+        animation__mouseenter=""
+        animation__mouseleave=""
+        material=""
+        geometry=""
+        scale="3 4 3"
+        sound="src: https://cdn.glitch.me/16521b45-ae5f-41c7-ad24-b14d29c915b4%2FJade_S4.mp3?v=1636473520502; loop: true; volume: 10; refDistance: 2; rolloffFactor: 8"
+        visible=""
+      ></a-sphere> -->
+      <!-- ground collider keeps objets from falling -->
+      <a-box
+        static-body
+        width="100"
+        height="0.001"
+        depth="100"
+        visible="false"
+      ></a-box>
+
+      <a-curve id="track1" curve="" visible="">
+        <a-curve-point position="-16 25 -33" curve-point=""></a-curve-point>
+        <a-curve-point position="7 29 -57" curve-point=""></a-curve-point>
+        <a-curve-point position="53 30.11663 5" curve-point=""></a-curve-point>
+        <a-curve-point
+          position="15.5502 31.8765 17"
+          curve-point=""
+        ></a-curve-point>
+        <a-curve-point
+          position="35.7578 34.34991 47.68387"
+          curve-point=""
+        ></a-curve-point>
+        <a-curve-point
+          position="33.61543 46.74483 82.57935"
+          curve-point=""
+        ></a-curve-point>
+        <a-curve-point
+          position="-35.24329 19.47516 34.14344"
+          curve-point=""
+        ></a-curve-point>
+        <a-curve-point position="-16 24 -33" curve-point=""></a-curve-point>
+      </a-curve>
+
+      <!-- delete Tack -->
+
+      <a-entity
+        animation="property: rotation; to: 0 360 0; dur: 10000; easing: linear; loop: true"
+      >
+        <a-entity mixin="light" position="0 10 30"></a-entity>
+      </a-entity>
+      <!-- CAMERA RIG FOR TELEPORT-CONTROLS AND SUPER-HANDS -->
+      <a-entity
+        id="cameraRig"
+        alongpath="curve: #track1; loop: true; dur: 120000"
+      >
+        <a-camera> </a-camera>
+        <a-entity
+          id="head"
+          progressive-controls="gazeMixin: mycursor; touchMixin: move; override: true; objects: .obj, .button; maxLevel: point;"
+        >
+          <a-entity
+            teleport-controls="cameraRig: #cameraRig; teleportOrigin: #head;"
+            shadow="cast:true"
+            haptics="events: triggerdown; dur: 50; force: 0.5"
+            class="left-controller"
+          ></a-entity>
+          <a-entity
+            teleport-controls="cameraRig: #cameraRig; teleportOrigin: #head;"
+            shadow="cast:true"
+            haptics="events: triggerdown; dur: 50; force: 0.5"
+            class="right-controller"
+          ></a-entity>
+        </a-entity>
+      </a-entity>
+    </a-scene>
+  </body>
+</html>
